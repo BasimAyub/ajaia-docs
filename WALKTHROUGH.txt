@@ -1,0 +1,20 @@
+Live product:
+LIVE_URL_PLACEHOLDER
+
+Walkthrough video:
+VIDEO_URL_PLACEHOLDER
+
+Demo identities:
+- Daniel Park: owner of Q3 Product Strategy and Launch Readiness Brief; editor on Customer Research Synthesis.
+- Maya Singh: owner of Customer Research Synthesis; viewer on Launch Readiness Brief.
+- Elena Rossi: no initial documents, for empty-state review.
+
+Recommended reviewer flow:
+1. Select Daniel, create a document, format it, wait for Saved, then reload.
+2. Share Q3 Product Strategy with Maya as a viewer.
+3. Select Maya and confirm the document appears under Shared with me as read-only.
+4. Select Daniel, edit Customer Research Synthesis, save, and reload.
+5. Import a .txt or .md file under 250 KB and confirm it opens as an editable document.
+
+Intentional limitation note:
+This review build uses seeded demo identities instead of real authentication. Authorization is enforced server-side for owner, editor, viewer, and unrelated-user access. Real-time collaboration, comments, history, .docx import, and offline sync are intentionally out of scope.
