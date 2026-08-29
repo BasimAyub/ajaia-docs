@@ -4,7 +4,7 @@ Ajaia Docs is a focused collaborative document workspace inspired by Google Docs
 
 ## Live Demo
 
-LIVE_URL_PLACEHOLDER
+https://ajaia-docs-nu-pearl.vercel.app/
 
 ## Demo Identities
 

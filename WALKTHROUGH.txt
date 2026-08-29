@@ -1,8 +1,8 @@
 Live product:
-LIVE_URL_PLACEHOLDER
+https://ajaia-docs-nu-pearl.vercel.app/
 
 Walkthrough video:
-VIDEO_URL_PLACEHOLDER
+https://www.loom.com/share/922de468b23e41cfbcbe59a0dc5900fa
 
 Demo identities:
 - Daniel Park: owner of Q3 Product Strategy and Launch Readiness Brief; editor on Customer Research Synthesis.

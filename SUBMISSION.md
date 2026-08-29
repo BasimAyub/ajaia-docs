@@ -4,11 +4,11 @@ Candidate: Basim Ayub
 
 ## Live Product
 
-LIVE_URL_PLACEHOLDER
+https://ajaia-docs-nu-pearl.vercel.app/
 
 ## Walkthrough
 
-VIDEO_URL_PLACEHOLDER
+https://www.loom.com/share/922de468b23e41cfbcbe59a0dc5900fa
 
 ## Demo Identities
 
