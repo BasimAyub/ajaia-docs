@@ -8,8 +8,8 @@ export function UserSwitcher({ currentUserId }: { currentUserId: string }) {
   const [pending, startTransition] = useTransition();
 
   return (
-    <label className="flex items-center gap-2 rounded-md border border-ink/10 bg-white px-3 py-2 text-sm shadow-sm">
-      <span className="text-ink/60">Demo identity</span>
+    <label className="flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-2.5 py-1.5 text-sm">
+      <span className="text-xs font-medium text-zinc-500">Demo identity</span>
       <select
         value={currentUserId}
         disabled={pending}
@@ -19,7 +19,7 @@ export function UserSwitcher({ currentUserId }: { currentUserId: string }) {
             void switchUser(userId);
           });
         }}
-        className="bg-transparent font-semibold text-ink outline-none"
+        className="max-w-36 bg-transparent text-sm font-semibold text-ink outline-none sm:max-w-none"
         aria-label="Switch demo identity"
       >
         {seededUsers.map((user) => (

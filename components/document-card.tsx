@@ -4,7 +4,7 @@ import { FileText } from "lucide-react";
 
 type DocumentCardProps = {
   document: Pick<Document, "id" | "title" | "plainText" | "updatedAt"> & {
-    owner: Pick<User, "name" | "color">;
+    owner: Pick<User, "name">;
   };
   label: string;
 };
@@ -13,31 +13,24 @@ export function DocumentCard({ document, label }: DocumentCardProps) {
   return (
     <Link
       href={`/documents/${document.id}`}
-      className="group grid grid-cols-[auto_1fr] gap-3 rounded-md border border-ink/10 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-moss/35 hover:shadow-soft focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2"
+      className="group grid grid-cols-[auto_1fr] gap-3 px-4 py-3 transition-colors hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-moss"
     >
-      <span className="mt-1 flex h-10 w-10 items-center justify-center rounded-md bg-sage text-moss">
-        <FileText aria-hidden="true" size={20} />
+      <span className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-md bg-zinc-100 text-zinc-500 group-hover:text-moss">
+        <FileText aria-hidden="true" size={17} />
       </span>
       <span className="min-w-0">
-        <span className="block truncate text-base font-semibold text-ink group-hover:text-moss">
+          <span className="block truncate text-[15px] font-semibold text-ink group-hover:text-moss">
           {document.title}
         </span>
-        <span className="mt-1 line-clamp-2 block text-sm leading-6 text-ink/64">
+          <span className="mt-0.5 block truncate text-sm leading-5 text-zinc-500">
           {document.plainText || "Blank document ready for a first draft."}
         </span>
-        <span className="mt-3 flex flex-wrap items-center gap-2 text-xs text-ink/55">
-          <span>{label}</span>
-          <span aria-hidden="true">/</span>
-          <span>Edited {formatRelative(document.updatedAt)}</span>
-          <span aria-hidden="true">/</span>
-          <span className="inline-flex items-center gap-1">
-            <span
-              className="h-2 w-2 rounded-full"
-              style={{ backgroundColor: document.owner.color }}
-              aria-hidden="true"
-            />
-            {document.owner.name}
-          </span>
+          <span className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
+            <span>{document.owner.name}</span>
+            <span aria-hidden="true">{"\u00B7"}</span>
+            <span className="font-medium text-zinc-600">{label}</span>
+            <span className="hidden sm:inline" aria-hidden="true">{"\u00B7"}</span>
+            <span className="sm:ml-auto">Updated {formatRelative(document.updatedAt)}</span>
         </span>
       </span>
     </Link>

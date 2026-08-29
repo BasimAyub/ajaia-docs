@@ -14,7 +14,7 @@ export default async function DashboardPage() {
   const [ownedDocuments, sharedDocuments] = await Promise.all([
     prisma.document.findMany({
       where: { ownerId: currentUserId },
-      include: { owner: true },
+      include: { owner: true, shares: { where: { userId: currentUserId }, select: { role: true } } },
       orderBy: { updatedAt: "desc" }
     }),
     prisma.document.findMany({
@@ -23,50 +23,43 @@ export default async function DashboardPage() {
           some: { userId: currentUserId }
         }
       },
-      include: { owner: true, shares: true },
+      include: { owner: true, shares: { where: { userId: currentUserId }, select: { role: true } } },
       orderBy: { updatedAt: "desc" }
     })
   ]);
 
   return (
-    <main className="mx-auto min-h-screen max-w-6xl px-5 py-6 sm:px-8">
-      <header className="flex flex-col gap-4 border-b border-ink/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-clay">Ajaia Docs</p>
-          <h1 className="mt-2 text-4xl font-bold text-ink">Shared work, written clearly.</h1>
-          <p className="mt-2 max-w-2xl text-base leading-7 text-ink/68">
-            A focused Google Docs-inspired slice with rich text editing, imports, autosave, and
-            server-side access rules.
+    <main className="min-h-screen">
+      <header className="border-b border-zinc-200 bg-white">
+        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
+          <p className="text-sm font-semibold text-ink">
+            <span className="text-moss">AJAIA</span> <span className="text-zinc-400">/</span> Docs
           </p>
+          <UserSwitcher currentUserId={currentUserId} />
         </div>
-        <UserSwitcher currentUserId={currentUserId} />
       </header>
 
-      <section className="grid gap-4 py-6 lg:grid-cols-[1fr_360px]">
-        <CreateDocumentForm />
-        <div className="rounded-md border border-ink/10 bg-white p-4 shadow-sm">
-          <p className="text-sm font-semibold text-ink">Current workspace</p>
-          <div className="mt-3 flex items-center gap-3">
-            <span
-              className="flex h-10 w-10 items-center justify-center rounded-md text-sm font-bold text-white"
-              style={{ backgroundColor: currentUser.color }}
-              aria-hidden="true"
-            >
-              {currentUser.name
-                .split(" ")
-                .map((part) => part[0])
-                .join("")}
-            </span>
-            <div>
-              <p className="font-semibold text-ink">{currentUser.name}</p>
-              <p className="text-sm text-ink/58">{currentUser.email}</p>
-            </div>
+      <div className="mx-auto max-w-6xl px-5 py-7 sm:px-8">
+        <section className="flex flex-col gap-5 border-b border-zinc-200 pb-6 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold text-ink">Documents</h1>
+            <p className="mt-1 text-sm text-zinc-500">
+              Create, import, and manage documents shared across your workspace.
+            </p>
           </div>
-        </div>
-      </section>
+          <CreateDocumentForm />
+        </section>
 
-      <section className="grid gap-6 lg:grid-cols-[1fr_360px]">
-        <div className="space-y-8">
+        <div className="flex flex-col gap-3 border-b border-zinc-200 py-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
+            <span>Active demo identity: {currentUser.name}</span>
+            <span aria-hidden="true">/</span>
+            <span>Switch identities to verify sharing and permissions.</span>
+          </div>
+          <ImportForm />
+        </div>
+
+        <section className="max-w-4xl space-y-8 py-7">
           <DocumentSection
             title="Owned by me"
             empty="Create a document to start your private workspace."
@@ -79,18 +72,8 @@ export default async function DashboardPage() {
             documents={sharedDocuments}
             label="Shared"
           />
-        </div>
-        <div className="space-y-4">
-          <ImportForm />
-          <div className="rounded-md border border-ink/10 bg-white/84 p-4 text-sm leading-6 text-ink/66 shadow-sm">
-            <p className="font-semibold text-ink">Review mode</p>
-            <p className="mt-1">
-              This review build uses seeded identities so sharing and permissions can be evaluated
-              without account setup.
-            </p>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }
@@ -103,26 +86,36 @@ type DocumentSectionProps = {
 };
 
 type DashboardDocument = Prisma.DocumentGetPayload<{
-  include: { owner: true };
+  include: { owner: true; shares: { select: { role: true } } };
 }>;
 
 function DocumentSection({ title, empty, documents, label }: DocumentSectionProps) {
   return (
     <section>
-      <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-ink">{title}</h2>
-        <span className="rounded-md bg-sage px-2 py-1 text-xs font-bold text-moss">
+      <div className="mb-2 flex items-center justify-between">
+        <h2 className="text-[17px] font-semibold text-ink">{title}</h2>
+        <span className="text-xs font-medium text-zinc-400">
           {documents.length}
         </span>
       </div>
       {documents.length === 0 ? (
-        <div className="rounded-md border border-dashed border-ink/14 bg-white/70 p-6 text-sm text-ink/60">
+        <div className="border border-dashed border-zinc-300 bg-white px-4 py-5 text-sm text-zinc-500">
           {empty}
         </div>
       ) : (
-        <div className="grid gap-3">
+        <div className="overflow-hidden rounded-md border border-zinc-200 bg-white divide-y divide-zinc-100">
           {documents.map((document) => (
-            <DocumentCard key={document.id} document={document} label={label} />
+            <DocumentCard
+              key={document.id}
+              document={document}
+              label={
+                label === "Shared"
+                  ? document.shares[0]?.role === "EDITOR"
+                    ? "Editor"
+                    : "Viewer"
+                  : label
+              }
+            />
           ))}
         </div>
       )}

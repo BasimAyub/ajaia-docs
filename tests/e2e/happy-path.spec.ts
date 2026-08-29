@@ -33,9 +33,9 @@ test("shared viewers can read but cannot edit", async ({ page }) => {
   await page.getByRole("button", { name: "Share document" }).click();
   await expect(page.getByText("Sharing updated.")).toBeVisible();
 
-  await page.getByRole("link", { name: "Dashboard" }).click();
+  await page.getByRole("link", { name: "Documents" }).click();
   await page.getByLabel("Switch demo identity").selectOption("maya");
-  await expect(page.getByText("maya@ajaia.test", { exact: true })).toBeVisible();
+  await expect(page.getByText("Active demo identity: Maya Singh", { exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: /Q3 Product Strategy/ })).toBeVisible();
 
   await page.getByRole("link", { name: /Q3 Product Strategy/ }).click();

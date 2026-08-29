@@ -39,23 +39,28 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
   const canShare = canShareDocument(document, currentUserId);
 
   return (
-    <main className="mx-auto min-h-screen max-w-7xl px-5 py-5 sm:px-8">
-      <header className="mb-5 flex flex-col gap-4 border-b border-ink/10 pb-5 lg:flex-row lg:items-start lg:justify-between">
-        <div className="min-w-0 flex-1">
+    <main className="min-h-screen">
+      <header className="border-b border-zinc-200 bg-white">
+        <div className="mx-auto max-w-[1180px] px-5 py-3 sm:px-8">
           <Link
             href="/"
-            className="mb-4 inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm font-semibold text-moss transition hover:bg-sage focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-md px-1 py-1 text-sm font-medium text-zinc-600 transition-colors hover:text-moss focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2"
           >
             <ArrowLeft size={16} aria-hidden="true" />
-            Dashboard
+            Documents
           </Link>
+        </div>
+      </header>
+
+      <div className="mx-auto max-w-[1180px] px-5 py-6 sm:px-8">
+        <section className="mx-auto max-w-[850px]">
           <DocumentTitleForm documentId={document.id} title={document.title} canEdit={canEdit} />
-          <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-ink/60">
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
             <span>Owner: {document.owner.name}</span>
             <span aria-hidden="true">/</span>
             <span>Viewing as {currentUser.name}</span>
             <span aria-hidden="true">/</span>
-            <span className="rounded-md bg-sage px-2 py-1 font-semibold text-moss">
+            <span className="font-semibold text-moss">
               {accessLevel === "owner"
                 ? "Owner"
                 : accessLevel === "editor"
@@ -63,21 +68,23 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
                   : "Viewer"}
             </span>
           </div>
-        </div>
-      </header>
+        </section>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        <DocumentEditor
-          documentId={document.id}
-          initialContent={JSON.parse(document.contentJson) as JSONContent}
-          canEdit={canEdit}
-        />
-        <SharePanel
-          documentId={document.id}
-          ownerId={document.ownerId}
-          canShare={canShare}
-          shares={document.shares}
-        />
+        <div className="mx-auto mt-6 grid max-w-[1180px] justify-items-center gap-6 xl:grid-cols-[minmax(0,850px)_280px] xl:justify-center">
+          <div className="w-full max-w-[850px]">
+            <DocumentEditor
+              documentId={document.id}
+              initialContent={JSON.parse(document.contentJson) as JSONContent}
+              canEdit={canEdit}
+            />
+          </div>
+          <SharePanel
+            documentId={document.id}
+            ownerId={document.ownerId}
+            canShare={canShare}
+            shares={document.shares}
+          />
+        </div>
       </div>
     </main>
   );

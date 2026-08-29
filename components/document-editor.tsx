@@ -234,8 +234,8 @@ export function DocumentEditor({ documentId, initialContent, canEdit }: Document
   }, [canEdit, documentId]);
 
   return (
-    <section className="overflow-hidden rounded-md border border-ink/10 bg-white shadow-soft">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink/10 bg-paper/70 px-3 py-3">
+    <section className="overflow-hidden rounded-md border border-zinc-200 bg-white">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 bg-zinc-50/70 px-3 py-2">
         <div className="flex flex-wrap items-center gap-1" role="toolbar" aria-label="Document formatting">
           {toolbarButtons.map((item) => {
             const Icon = item.icon;
@@ -248,22 +248,22 @@ export function DocumentEditor({ documentId, initialContent, canEdit }: Document
                 aria-label={item.label}
                 aria-pressed={Boolean(item.active)}
                 onClick={item.action}
-                className={`flex h-9 w-9 items-center justify-center rounded-md border text-ink transition focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 ${
-                  item.active ? "border-moss bg-sage" : "border-transparent hover:bg-ink/5"
+                className={`flex h-8 w-8 items-center justify-center rounded-md border text-ink transition-colors focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 ${
+                  item.active ? "border-moss/25 bg-sage text-moss" : "border-transparent hover:bg-zinc-200"
                 }`}
               >
                 <Icon size={17} aria-hidden="true" />
               </button>
             );
           })}
-          <span className="mx-1 h-6 w-px bg-ink/10" aria-hidden="true" />
+          <span className="mx-1 h-5 w-px bg-zinc-200" aria-hidden="true" />
           <button
             type="button"
             disabled={!canEdit}
             title="Undo"
             aria-label="Undo"
             onClick={() => editor?.chain().focus().undo().run()}
-            className="flex h-9 w-9 items-center justify-center rounded-md text-ink transition hover:bg-ink/5 focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex h-8 w-8 items-center justify-center rounded-md text-ink transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
           >
             <Undo2 size={17} aria-hidden="true" />
           </button>
@@ -273,14 +273,14 @@ export function DocumentEditor({ documentId, initialContent, canEdit }: Document
             title="Redo"
             aria-label="Redo"
             onClick={() => editor?.chain().focus().redo().run()}
-            className="flex h-9 w-9 items-center justify-center rounded-md text-ink transition hover:bg-ink/5 focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex h-8 w-8 items-center justify-center rounded-md text-ink transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
           >
             <Redo2 size={17} aria-hidden="true" />
           </button>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <p
-            className={`text-sm font-medium ${
+            className={`text-xs font-medium ${
               saveState === "error" ? "text-clay" : saveState === "saving" ? "text-cornflower" : "text-moss"
             }`}
             aria-live="polite"
@@ -293,7 +293,7 @@ export function DocumentEditor({ documentId, initialContent, canEdit }: Document
               onClick={persist}
               disabled={isPending || saveState === "saving"}
               variant="secondary"
-              className="min-h-9 px-3"
+              className="min-h-8 px-2.5 text-xs"
             >
               <Save size={16} aria-hidden="true" />
               Save

@@ -11,7 +11,7 @@ export function ImportForm() {
 
   return (
     <form
-      className="rounded-md border border-dashed border-moss/30 bg-white/76 p-4"
+      className="flex flex-col gap-2 sm:flex-row sm:items-center"
       action={(formData) => {
         setMessage(null);
         startTransition(async () => {
@@ -22,26 +22,26 @@ export function ImportForm() {
         });
       }}
     >
-      <label className="block text-sm font-semibold text-ink" htmlFor="file">
-        Import .txt or .md
-      </label>
-      <p className="mt-1 text-sm leading-6 text-ink/62">
-        Supports .txt and .md files up to 250 KB. Imports become editable rich-text documents.
-      </p>
-      <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+      <div className="min-w-0">
+        <label className="block text-sm font-medium text-ink" htmlFor="file">
+          Import .txt or .md
+        </label>
+        <p className="text-xs leading-5 text-zinc-500">Supports .txt and .md files up to 250 KB.</p>
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center">
         <input
           id="file"
           name="file"
           type="file"
           accept=".txt,.md,text/plain,text/markdown"
-          className="min-h-10 flex-1 rounded-md border border-ink/12 bg-white px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-sage file:px-3 file:py-1.5 file:font-semibold file:text-moss"
+          className="min-h-9 min-w-0 flex-1 rounded-md border border-zinc-300 bg-white px-2 py-1.5 text-xs text-zinc-600 file:mr-2 file:rounded file:border-0 file:bg-zinc-100 file:px-2 file:py-1 file:font-medium file:text-ink"
         />
         <Button type="submit" disabled={pending} variant="secondary">
           <Upload size={16} aria-hidden="true" />
           {pending ? "Importing" : "Import"}
         </Button>
       </div>
-      {message ? <p className="mt-3 text-sm font-medium text-clay">{message}</p> : null}
+      {message ? <p className="text-sm font-medium text-clay sm:ml-2">{message}</p> : null}
     </form>
   );
 }

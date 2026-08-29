@@ -20,30 +20,28 @@ export function SharePanel({ documentId, ownerId, canShare, shares }: SharePanel
   const shareableUsers = useMemo(() => seededUsers.filter((user) => user.id !== ownerId), [ownerId]);
 
   return (
-    <aside className="rounded-md border border-ink/10 bg-white p-4 shadow-sm">
-      <div className="flex items-center gap-2">
-        <span className="flex h-9 w-9 items-center justify-center rounded-md bg-sage text-moss">
-          <Share2 size={17} aria-hidden="true" />
-        </span>
+    <aside className="border border-zinc-200 bg-white p-4">
+      <div className="flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-bold text-ink">Sharing</h2>
-          <p className="text-sm text-ink/62">{canShare ? "Owner controls access" : "Owner-only controls"}</p>
+          <h2 className="text-sm font-semibold text-ink">Sharing</h2>
+          <p className="mt-0.5 text-xs text-zinc-500">{canShare ? "Owner controls access" : "Owner-only controls"}</p>
         </div>
+        <Share2 size={17} className="text-zinc-400" aria-hidden="true" />
       </div>
 
-      <div className="mt-4 space-y-3">
+      <div className="mt-4 space-y-2">
         {shares.length === 0 ? (
-          <p className="rounded-md bg-paper p-3 text-sm leading-6 text-ink/65">
+          <p className="border-l-2 border-zinc-200 pl-3 text-sm leading-6 text-zinc-500">
             This document is private to its owner.
           </p>
         ) : (
           shares.map((share) => (
-            <div key={share.userId} className="flex items-center justify-between gap-3 rounded-md bg-paper p-3">
+            <div key={share.userId} className="flex items-center justify-between gap-3 border-b border-zinc-100 py-2 last:border-0">
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-ink">{share.user.name}</p>
-                <p className="truncate text-xs text-ink/55">{share.user.email}</p>
+                <p className="truncate text-sm font-medium text-ink">{share.user.name}</p>
+                <p className="truncate text-xs text-zinc-500">{share.user.email}</p>
               </div>
-              <span className="rounded-md bg-white px-2 py-1 text-xs font-semibold text-moss">
+              <span className="text-xs font-medium text-zinc-600">
                 {share.role === "EDITOR" ? "Can edit" : "Can view"}
               </span>
             </div>
@@ -53,7 +51,7 @@ export function SharePanel({ documentId, ownerId, canShare, shares }: SharePanel
 
       {canShare ? (
         <form
-          className="mt-4 space-y-3 border-t border-ink/10 pt-4"
+          className="mt-4 space-y-3 border-t border-zinc-200 pt-4"
           action={(formData) => {
             setMessage(null);
             startTransition(async () => {
@@ -69,7 +67,7 @@ export function SharePanel({ documentId, ownerId, canShare, shares }: SharePanel
           <select
             id="share-user"
             name="userId"
-            className="min-h-10 w-full rounded-md border border-ink/12 bg-white px-3 py-2 text-sm outline-none focus:border-moss focus:ring-2 focus:ring-moss/20"
+            className="min-h-9 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-moss focus:ring-2 focus:ring-moss/20"
           >
             {shareableUsers.map((user) => (
               <option key={user.id} value={user.id}>
@@ -80,7 +78,7 @@ export function SharePanel({ documentId, ownerId, canShare, shares }: SharePanel
           <select
             name="role"
             aria-label="Access level"
-            className="min-h-10 w-full rounded-md border border-ink/12 bg-white px-3 py-2 text-sm outline-none focus:border-moss focus:ring-2 focus:ring-moss/20"
+            className="min-h-9 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-moss focus:ring-2 focus:ring-moss/20"
           >
             <option value="EDITOR">Can edit</option>
             <option value="VIEWER">Can view</option>
